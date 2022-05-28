@@ -10,7 +10,7 @@ require("data.table")
 require("rpart")
 require("parallel")
 
-ksemillas  <- c(102191, 200177, 410551, 552581, 892237) #reemplazar por las propias semillas
+ksemillas  <- c(102199, 102433, 103483, 104033, 104323) #reemplazar por las propias semillas
 
 #------------------------------------------------------------------------------
 #particionar agrega una columna llamada fold a un dataset que consiste en una particion estratificada segun agrupa
@@ -80,7 +80,7 @@ ArbolesMontecarlo  <- function( semillas, param_basicos, peso_error )
 #------------------------------------------------------------------------------
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("D:\\gdrive\\ITBA2022A\\")   #Establezco el Working Directory
+setwd("C:\\Users\\hmreu\\Documents\\Especialización en Ciencias de Datos\\Mineria de Datos\\")   #Establezco el Working Directory
 
 #cargo los datos
 dataset  <- fread("./datasets/paquete_premium_202011.csv")

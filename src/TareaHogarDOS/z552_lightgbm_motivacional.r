@@ -18,10 +18,10 @@ require("data.table")
 require("lightgbm")
 
 
-ksemilla  <- 102191  #poner aqui la PRIMERA de sus cinco semillas
+ksemilla  <- 102199  #poner aqui la PRIMERA de sus cinco semillas
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("D:\\gdrive\\ITBA2022A\\")   #Establezco el Working Directory
+setwd("C:\\Users\\hmreu\\Documents\\Especialización en Ciencias de Datos\\Mineria de Datos\\")   #Establezco el Working Directory
 
 #cargo el dataset donde voy a entrenar
 dataset  <- fread("./datasets/paquete_premium_202011.csv", stringsAsFactors= TRUE)
@@ -46,11 +46,11 @@ dtrain  <- lgb.Dataset( data= data.matrix(  dataset[ , campos_buenos, with=FALSE
 modelo  <- lgb.train( data= dtrain,
                       param= list( objective=        "binary",
                                    max_bin=              31,
-                                   learning_rate=         0.067,
-                                   num_iterations=      128,
-                                   num_leaves=          100,
-                                   min_data_in_leaf=   1700,
-                                   feature_fraction=      0.37,
+                                   learning_rate=         0.0100823763285665,
+                                   num_iterations=      588,
+                                   num_leaves=          836,
+                                   min_data_in_leaf=   2109,
+                                   feature_fraction=      0.526682065106847,
                                    seed=               ksemilla   #aqui se utiliza SU primer semilla
                                   )
                     )
@@ -74,7 +74,7 @@ dir.create( "./labo/exp/",  showWarnings = FALSE )
 dir.create( "./labo/exp/KA5520/", showWarnings = FALSE )
 setwd( "./labo/exp/KA5520/" )
 
-archivo_salida  <- "KA_552_001.csv"
+archivo_salida  <- "KA_552_002.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
@@ -84,7 +84,7 @@ fwrite( entrega,
 
 #ahora imprimo la importancia de variables
 tb_importancia  <-  as.data.table( lgb.importance(modelo) ) 
-archivo_importancia  <- "552_importancia_001.txt"
+archivo_importancia  <- "552_importancia_002.txt"
 
 fwrite( tb_importancia, 
         file= archivo_importancia, 

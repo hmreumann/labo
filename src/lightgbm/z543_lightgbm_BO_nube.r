@@ -22,7 +22,7 @@ require("mlrMBO")
 kBO_iter  <- 100   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 #Aqui se cargan los hiperparametros
-hs <- makeParamSet( 
+hs <- makeParamSet(
          makeNumericParam("learning_rate",    lower=  0.01 , upper=    0.3),
          makeNumericParam("feature_fraction", lower=  0.2  , upper=    1.0),
          makeIntegerParam("min_data_in_leaf", lower=  0    , upper= 8000),
@@ -30,7 +30,7 @@ hs <- makeParamSet(
          makeNumericParam("prob_corte",       lower= 1/120 , upper=  1/20)  #esto sera visto en clase en gran detalle
         )
 
-ksemilla_azar  <- 102191  #Aqui poner la propia semilla
+ksemilla_azar  <- 102199  #Aqui poner la propia semilla
 
 #------------------------------------------------------------------------------
 #graba a un archivo los componentes de lista
@@ -43,7 +43,7 @@ loguear  <- function( reg, arch=NA, folder="./exp/", ext=".txt", verbose=TRUE )
 
   if( !file.exists( archivo ) )  #Escribo los titulos
   {
-    linea  <- paste0( "fecha\t", 
+    linea  <- paste0( "fecha\t",
                       paste( list.names(reg), collapse="\t" ), "\n" )
 
     cat( linea, file=archivo )
@@ -58,7 +58,7 @@ loguear  <- function( reg, arch=NA, folder="./exp/", ext=".txt", verbose=TRUE )
 }
 #------------------------------------------------------------------------------
 #esta funcion calcula internamente la ganancia de la prediccion probs
-fganancia_logistic_lightgbm   <- function( probs, datos) 
+fganancia_logistic_lightgbm   <- function( probs, datos)
 {
   vlabels  <- get_field(datos, "label")
 
@@ -66,7 +66,7 @@ fganancia_logistic_lightgbm   <- function( probs, datos)
                ifelse( vlabels== 1, 59000, -1000 ) )
 
 
-  return( list( "name"= "ganancia", 
+  return( list( "name"= "ganancia",
                 "value"=  gan,
                 "higher_better"= TRUE ) )
 }
@@ -126,7 +126,7 @@ EstimarGanancia_lightgbm  <- function( x )
   param_completo$num_iterations <- modelocv$best_iter  #asigno el mejor num_iterations
   param_completo["early_stopping_rounds"]  <- NULL     #elimino de la lista el componente  "early_stopping_rounds"
 
-  #logueo 
+  #logueo
   xx  <- param_completo
   xx$ganancia  <- ganancia_normalizada   #le agrego la ganancia
   xx$iteracion <- GLOBAL_iteracion
@@ -145,7 +145,7 @@ dataset  <- fread("./datasets/paquete_premium_202011.csv.gz")
 
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
-dir.create( "./exp/",  showWarnings = FALSE ) 
+dir.create( "./exp/",  showWarnings = FALSE )
 dir.create( "./exp/HT5430/", showWarnings = FALSE )
 setwd("./exp/HT5430/")   #Establezco el Working Directory DEL EXPERIMENTO
 
