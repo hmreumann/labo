@@ -31,11 +31,11 @@ dtrain  <- lgb.Dataset( data= data.matrix(  dataset[ , campos_buenos, with=FALSE
 #genero el modelo con los parametros por default
 modelo  <- lgb.train( data= dtrain,
                       param= list( objective=        "binary",
-                                   learning_rate =      0.1,
-                                   num_leaves=         31,
-                                   feature_fraction=    1.0,
-                                   min_data_in_leaf= 20,
-                                   seed= 4 )
+                                   learning_rate =      0.0101470918000707,
+                                   num_leaves=         185,
+                                   feature_fraction=    0.515737214495623,
+                                   min_data_in_leaf= 4137,
+                                   seed= 999983 )
                     )
 
 #aplico el modelo a los datos sin clase
@@ -56,7 +56,7 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
 
 dir.create( "./labo/exp/",  showWarnings = FALSE ) 
 dir.create( "./labo/exp/KA2512/", showWarnings = FALSE )
-archivo_salida  <- "./labo/exp/KA2512/KA_512_001.csv"
+archivo_salida  <- "./labo/exp/KA2512/KA_512_002_th3.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
@@ -66,7 +66,7 @@ fwrite( entrega,
 
 #ahora imprimo la importancia de variables
 tb_importancia  <-  as.data.table( lgb.importance(modelo) ) 
-archivo_importancia  <- "./labo/exp/KA2512/512_importancia_001.txt"
+archivo_importancia  <- "./labo/exp/KA2512/512_importancia_002_th3.txt"
 
 fwrite( tb_importancia, 
         file= archivo_importancia, 
