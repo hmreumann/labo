@@ -1,4 +1,4 @@
-# Este script esta pensado para correr en la PC local 
+# Este script esta pensado para correr en la PC local
 # 5-fold cross validation
 
 #limpio la memoria
@@ -24,7 +24,7 @@ loguear  <- function( reg, arch=NA, folder="./exp/", ext=".txt", verbose=TRUE )
 
   if( !file.exists( archivo ) )  #Escribo los titulos
   {
-    linea  <- paste0( "fecha\t", 
+    linea  <- paste0( "fecha\t",
                       paste( list.names(reg), collapse="\t" ), "\n" )
 
     cat( linea, file=archivo )
@@ -42,7 +42,7 @@ loguear  <- function( reg, arch=NA, folder="./exp/", ext=".txt", verbose=TRUE )
 
 SCORE_PCORTE  <- log( 1/60 / ( 1 - 1/60 ) )   #esto hace falta en ESTA version del XGBoost ... misterio por ahora ...
 
-fganancia_logistic_xgboost   <- function( scores, datos) 
+fganancia_logistic_xgboost   <- function( scores, datos)
 {
   vlabels  <- getinfo( datos, "label")
 
@@ -63,7 +63,7 @@ EstimarGanancia_xgboost  <- function( x )
   #llevo el registro de la iteracion por la que voy
   GLOBAL_iteracion  <<- GLOBAL_iteracion + 1
 
-  SCORE_PCORTE  <<- log( x$prob_corte / ( 1 - x$prob_corte ) ) 
+  SCORE_PCORTE  <<- log( x$prob_corte / ( 1 - x$prob_corte ) )
 
   kfolds  <- 5   # cantidad de folds para cross validation
 
@@ -91,13 +91,13 @@ EstimarGanancia_xgboost  <- function( x )
                        nfold= kfolds,        #folds del cross validation
                        nrounds= 9999,        #un numero muy grande, lo limita early_stopping_rounds
                        early_stopping_rounds= as.integer(50 + 5/x$eta),
-                       base_score= mean( getinfo(dtrain, "label")),  
+                       base_score= mean( getinfo(dtrain, "label")),
                        param= param_completo,
                        verbose= -100
                       )
 
   #obtengo la ganancia
-  ganancia   <- unlist( modelocv$evaluation_log[ , test_ganancia_mean] )[ modelocv$best_iter ] 
+  ganancia   <- unlist( modelocv$evaluation_log[ , test_ganancia_mean] )[ modelocv$best_iter ]
 
   ganancia_normalizada  <- ganancia* kfolds     #normailizo la ganancia
 
@@ -107,7 +107,7 @@ EstimarGanancia_xgboost  <- function( x )
   param_completo$nrounds <- modelocv$best_iter  #asigno el mejor nrounds
   param_completo["early_stopping_rounds"]  <- NULL     #elimino de la lista el componente  "early_stopping_rounds"
 
-  #logueo 
+  #logueo
   xx  <- param_completo
   xx$ganancia  <- ganancia_normalizada   #le agrego la ganancia
   xx$iteracion <- GLOBAL_iteracion
@@ -126,8 +126,8 @@ dataset  <- fread("./datasets/paquete_premium_202011.csv")
 
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
-dir.create( "./labo/exp/",  showWarnings = FALSE ) 
-dir.create( "./labo/exp/HT5620/", showWarnings = FALSE )
+dir.create( "./exp/",  showWarnings = FALSE )
+dir.create( "./exp/HT5620/", showWarnings = FALSE )
 setwd("~/buckets/b1/exp/HT5620/")   #Establezco el Working Directory DEL EXPERIMENTO
 
 
@@ -166,4 +166,4 @@ x  <- list( eta=               0.3,
             prob_corte=        1/60
           )
 
-EstimarGanancia_xgboost( x ) 
+EstimarGanancia_xgboost( x )

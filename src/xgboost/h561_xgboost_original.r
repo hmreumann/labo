@@ -29,7 +29,7 @@ dtrain  <- xgb.DMatrix( data= data.matrix(  dataset[ , campos_buenos, with=FALSE
 modelo  <- xgb.train( data= dtrain,
                       param= list( objective=       "binary:logistic",
                                    max_depth=           6,
-                                   min_child_weight=    1,
+                                   min_child_weight=    1.0,
                                    eta=                 0.3,
                                    colsample_bytree=    1.0
                                    ),
@@ -50,7 +50,7 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
 
 dir.create( "./exp/",  showWarnings = FALSE )
 dir.create( "./exp/KA5610/", showWarnings = FALSE )
-archivo_salida  <- "./exp/KA5610/KA_561_001.csv"
+archivo_salida  <- "./exp/KA5610/KA_561_002.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega,
