@@ -51,7 +51,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-*.md
+# *.md
 *_files/
 __pycache__/
 !README.md
@@ -180,4 +180,3 @@ project/target
 # Scala - IDE specific
 .scala_dependencies
 .worksheet
-
