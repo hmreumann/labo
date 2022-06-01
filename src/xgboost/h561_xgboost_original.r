@@ -8,7 +8,7 @@ require("data.table")
 require("xgboost")
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("~/buckets/b1/")   #Establezco el Working Directory
+setwd("/home/hmreumann/Documents/2022-dm/")   #Establezco el Working Directory
 
 #cargo el dataset donde voy a entrenar
 dataset  <- fread("./datasets/paquete_premium_202011.csv", stringsAsFactors= TRUE)
@@ -28,12 +28,12 @@ dtrain  <- xgb.DMatrix( data= data.matrix(  dataset[ , campos_buenos, with=FALSE
 #genero el modelo con los parametros por default
 modelo  <- xgb.train( data= dtrain,
                       param= list( objective=       "binary:logistic",
-                                   max_depth=           6,
-                                   min_child_weight=    1.0,
-                                   eta=                 0.3,
-                                   colsample_bytree=    1.0
+                                   max_depth=           2,
+                                   min_child_weight=    0.9,
+                                   eta=                 0.087459703131633,
+                                   colsample_bytree=    0.33506084107556
                                    ),
-                      nrounds= 34
+                      nrounds= 158
                     )
 
 #aplico el modelo a los datos sin clase
@@ -46,11 +46,11 @@ prediccion  <- predict( modelo,
 
 #Genero la entrega para Kaggle
 entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_cliente],
-                                 "Predicted"= as.integer( prediccion > 1/60 ) )  ) #genero la salida
+                                 "Predicted"= as.integer( prediccion > 0.016728353979869 ) )  ) #genero la salida
 
 dir.create( "./exp/",  showWarnings = FALSE )
 dir.create( "./exp/KA5610/", showWarnings = FALSE )
-archivo_salida  <- "./exp/KA5610/KA_561_002.csv"
+archivo_salida  <- "./exp/KA5610/KA_561_005.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega,
