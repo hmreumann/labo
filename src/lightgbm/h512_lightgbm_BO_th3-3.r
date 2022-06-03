@@ -31,25 +31,14 @@ dtrain  <- lgb.Dataset( data= data.matrix(  dataset[ , campos_buenos, with=FALSE
 #genero el modelo con los parametros por default
 modelo  <- lgb.train( data= dtrain,
                       param= list( objective=        "binary",
-                        metric= "custom",
-                        first_metric_only= TRUE,
-                        boost_from_average= TRUE,
-                        feature_pre_filter= FALSE,
-                        verbosity= -100,
-                        max_depth=  -1,         # -1 significa no limitar,  por ahora lo dejo fijo
-                        min_gain_to_split= 0.0, #por ahora, lo dejo fijo
-                        lambda_l1= 0.0,         #por ahora, lo dejo fijo
-                        lambda_l2= 0.0,         #por ahora, lo dejo fijo
-                        max_bin= 31,            #por ahora, lo dejo fijo
-                        num_iterations= 9999,   #un numero muy grande, lo limita early_stopping_rounds
-                        force_row_wise= TRUE,   #para que los alumnos no se atemoricen con tantos warning
-
-                        learning_rate =      0.010057517855543,
-                        num_leaves=         790,
-                        feature_fraction=    0.539313312391757,
-                        min_data_in_leaf= 2910,
-                        seed= 999983
-                      )
+                                   num_iterations=     88,
+                                   learning_rate= 0.165086750990436,
+                                   num_leaves=         664,
+                                   feature_fraction=    0.504242861583403,
+                                   min_data_in_leaf= 7921,
+                                   lambda_l1=0.07953123261231,
+                                   lambda_l1=84.6791135118828,
+                                   seed= 4 )
                     )
 
 #aplico el modelo a los datos sin clase
@@ -60,27 +49,29 @@ dapply[ ctarjeta_visa==0 & ctarjeta_visa_trx==0,  ctarjeta_visa_trx2 := NA ]
 
 
 #aplico el modelo a los datos nuevos
-prediccion  <- predict( modelo,
+prediccion  <- predict( modelo, 
                         data.matrix( dapply[, campos_buenos, with=FALSE ]) )
+
 
 #Genero la entrega para Kaggle
 entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_cliente],
-                                 "Predicted"= as.integer(prediccion > 0.0161457123348438 ) )  ) #genero la salida
+                                 "Predicted"= as.integer(prediccion > 0.0162126142425368 ) )  ) #genero la salida
 
-dir.create( "./labo/exp/",  showWarnings = FALSE )
+dir.create( "./labo/exp/",  showWarnings = FALSE ) 
 dir.create( "./labo/exp/KA2512/", showWarnings = FALSE )
-archivo_salida  <- "./labo/exp/KA2512/KA_512_002_th3_CA_14000.csv"
+archivo_salida  <- "./labo/exp/KA2512/KA_512_002.csv"
 
 #genero el archivo para Kaggle
-fwrite( entrega,
-        file= archivo_salida,
+fwrite( entrega, 
+        file= archivo_salida, 
         sep= "," )
 
 
 #ahora imprimo la importancia de variables
-tb_importancia  <-  as.data.table( lgb.importance(modelo) )
-archivo_importancia  <- "./labo/exp/KA2512/512_importancia_002_th3.txt"
+tb_importancia  <-  as.data.table( lgb.importance(modelo) ) 
+archivo_importancia  <- "./labo/exp/KA2512/512_importancia_002.txt"
 
-fwrite( tb_importancia,
-        file= archivo_importancia,
+fwrite( tb_importancia, 
+        file= archivo_importancia, 
         sep= "\t" )
+
