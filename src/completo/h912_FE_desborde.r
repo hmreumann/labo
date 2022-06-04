@@ -248,6 +248,8 @@ AgregarVariables  <- function( dataset )
   dataset[ , mvr_mpagominimo         := mv_mpagominimo  / mv_mlimitecompra ]
 
   #Aqui debe usted agregar sus propias nuevas variables
+  dataset[ , antiguedad_vs_edad      := cliente_antiguedad / cliente_edad ]
+  dataset[ , campos_nulos  := rowSums( is.na(dataset) ) ]
 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
