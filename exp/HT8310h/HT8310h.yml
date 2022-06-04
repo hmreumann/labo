@@ -10,7 +10,7 @@ experiment:
   script: "src/completo/z931_HT_lightgbm.r"
   restart: TRUE
   name: "exp"
-  requires:   [ "TS8210" ]
+  requires:   [ "TS8212h" ]
 
 
 param:
@@ -44,7 +44,7 @@ param:
 
     max_depth:  -1                   # [ 6  ,  12 ]  #pero es preferible dejarlo en -1 como esta
     max_bin:     31                  #dejarlo fijo en 31, los scripts no estan preparados para que esto cambie
-    
+
     seed: 999983                     #podrian poner su propia semilla, asi sienten que la corrida les pertenece
     extra_trees: FALSE
 
@@ -54,7 +54,7 @@ param:
 
     metric: "custom"                 #no tocar
     first_metric_only: TRUE          #no tocar
-    
+
     objective: "binary"
     boost_from_average: TRUE         #Ni se le ocurra cambiar esto, solo encontrara dolor y sufrimiento
     force_row_wise: TRUE             #haga lo que quiera aqui, da lo mismo
@@ -95,4 +95,3 @@ environment:
   repo_dir: "~/labo/"
   exp_dir:  "~/buckets/b1/exp/"
   catalog:  "catalogo.txt"
-
