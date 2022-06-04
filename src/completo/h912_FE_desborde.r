@@ -170,6 +170,10 @@ Corregir  <- function( dataset )
   dataset[ foto_mes==202012,  tmobile_app  := NA ]
   dataset[ foto_mes==202101,  tmobile_app  := NA ]
 
+  # Agregando nulos y rompiendo mitos TH2
+  dataset[ ctarjeta_visa==0 & ctarjeta_visa_trx==0, ctarjeta_visa_trx := NA ]
+  dataset[ ctarjeta_master==0 & ctarjeta_master_trx==0, ctarjeta_master_trx := NA ]
+
   ReportarCampos( dataset )
 }
 #------------------------------------------------------------------------------
@@ -249,7 +253,7 @@ AgregarVariables  <- function( dataset )
 
   #Aqui debe usted agregar sus propias nuevas variables
   dataset[ , antiguedad_vs_edad      := cliente_antiguedad / cliente_edad ]
-  dataset[ , campos_nulos  := rowSums( is.na(dataset) ) ]
+
 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
