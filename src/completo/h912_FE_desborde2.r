@@ -254,14 +254,14 @@ AgregarVariables  <- function( dataset )
   #Aqui debe usted agregar sus propias nuevas variables
   dataset[ , antiguedad_vs_edad      := cliente_antiguedad / cliente_edad ]
 
-    # Varaibles Jeipi
+  # Varaibles Jeipi
   dataset[ , jeipi_trax_varias                  := thomebanking + chomebanking_trx + ccajas_consultas + cmobile_app_trx ]
   dataset[ , jeipi_catm_sobre_otras             := catm_trx / (catm_trx + catm_trx_other) ]
   dataset[ , jeipi_matm_sobre_otras             := matm / (matm + matm_other) ]
-  dataset[ , jeipi_master_consumos_vs_limite    := (master_mconsumospesos + master_mconsumosdolares) / master_mlimitecompra ]
-  dataset[ , jeipi_visa_consumos_vs_limite      := (visa_mconsumospesos + visa_mconsumosdolares) / visa_mlimitecompra ]
-  dataset[ , jeipi_tarjetas_consumos_vs_limite  := (visa_mconsumospesos + visa_mconsumosdolares + master_mconsumospesos + master_mconsumosdolares) / (visa_mlimitecompra + master_mlimitecompra) ]
-  dataset[ , jeipi_tarjetas_delincuencia        := master_delinquency + visa_delinquency ]
+  dataset[ , jeipi_master_consumos_vs_limite    := (Master_mconsumospesos + Master_mconsumosdolares) / Master_mlimitecompra ]
+  dataset[ , jeipi_visa_consumos_vs_limite      := (Visa_mconsumospesos + Visa_mconsumosdolares) / Visa_mlimitecompra ]
+  dataset[ , jeipi_tarjetas_consumos_vs_limite  := (Visa_mconsumospesos + Visa_mconsumosdolares + Master_mconsumospesos + Master_mconsumosdolares) / (Visa_mlimitecompra + Master_mlimitecompra) ]
+  dataset[ , jeipi_tarjetas_delincuencia        := Master_delinquency + Visa_delinquency ]
 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
